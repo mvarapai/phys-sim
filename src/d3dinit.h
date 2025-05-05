@@ -38,8 +38,9 @@ private:
 
 public:
 	// Initialize the window and DirectX
-	void Initialize(HWND hWnd)
+	void Initialize(HWND hWnd, std::wstring wndTitle)
 	{
+		mMainWindowCaption = wndTitle;
 		mhWnd = hWnd;
 
 		mTimer = std::make_unique<Timer>();
@@ -139,7 +140,7 @@ protected:
 	bool msaaEnabled = false;
 private:
 	// Window state members
-	std::wstring mMainWindowCaption = L"Learning DirectX12";
+	std::wstring mMainWindowCaption = L"Window";
 
 	// Window management variables
 	bool mAppPaused = false;

@@ -1,31 +1,36 @@
 #pragma once
 
 #include <Windows.h>
+#include <corecrt_wstring.h>
 
 #include "d3dinit.h"
 
-// Class that initializes and operates the window
-struct D3DWindow {
+
+struct WINDOW_PARAMS					// Parameter structure to pass at creation
+{
+	HINSTANCE hInstance;
+	LPCWSTR windowTitle;
+	int x;
+	int y;
+	int width;
+	int height;
+};
+
+struct D3DWindow {						// Class that initializes and operates the window
 
 private:
+	HWND mhWnd = nullptr;				// Window handle. Make it contain pointer to this class
 
 	static D3DBase* pD3D;
-	
-	const UINT m_x = 200;						// Initial position of
-	const UINT m_y = 200;						// the window on screen
-
-	HWND mhWnd = nullptr;						// Window handle
-	HINSTANCE mhInstance = nullptr;				// Window instance
-	LPCWSTR mClassName = L"SampleWindowClass";	// Class name
-	
 public:
-	D3DWindow(HINSTANCE hInst);
-	// Getter for HWND
-	HWND GetWindowHandle() const;
+	D3DWindow() = delete;
+	D3DWindow(D3DWindow& other) = delete;
+	D3DWindow& operator=(D3DWindow& rhs) = delete;
 
-	// Create the window and show it
-	void Initialize();
-	void ShowD3DWindow(int show, D3DBase* pRenderer);
+	D3DWindow(WINDOW_PARAMS& wndParam);	// Create the window by passing parameters
+	HWND GetWindowHandle() const;		// Access HWND via this class
+
+	void ShowD3DWindow(int show, D3DBase* pApp);
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 

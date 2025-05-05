@@ -20,11 +20,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,// Handle to app in Windows
 	_In_ PSTR pCmdLine,						// Command line (PSTR = char*)
 	_In_ int nCmdShow)						// Show Command
 {
-	D3DWindow window = { hInstance };
-	window.Initialize();
+	WINDOW_PARAMS wndparams = { };
+	wndparams.hInstance = hInstance;
+	wndparams.windowTitle = L"Physical Simulation";
+	wndparams.x = 200;
+	wndparams.y = 200;
+	wndparams.width = 800;
+	wndparams.height = 600;
+
+	D3DWindow window(wndparams);
 
 	D3DApplication app;
-	app.Initialize(window.GetWindowHandle());
+	app.Initialize(window.GetWindowHandle(), L"Physical Simulation");
 
 	window.ShowD3DWindow(nCmdShow, &app);
 	app.Run();
