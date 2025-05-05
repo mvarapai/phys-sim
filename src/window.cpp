@@ -1,19 +1,14 @@
 #include "window.h"
 #include "d3dinit.h"
 
-D3DBase* pD3D = nullptr;
-
 // Forward declaration to be used for creation
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-D3DWindow::D3DWindow(HINSTANCE hInst) : mhInstance(hInst)
-{
-}
+D3DWindow::D3DWindow(HINSTANCE hInst) : mhInstance(hInst) { }
+D3DBase* D3DWindow::pD3D = nullptr;
 
 // Method to secure that there is only one window instance
 void D3DWindow::Initialize()
 {
-	
 	// Fill out structure with window class data
 	WNDCLASS wc = {};
 	wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -66,7 +61,7 @@ void D3DWindow::ShowD3DWindow(int show, D3DBase* pRenderer)
 }
 
 // Process window messages, passes arguments to d3d_base static class
-LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK D3DWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return pD3D->MsgProc(hWnd, msg, wParam, lParam);
 }

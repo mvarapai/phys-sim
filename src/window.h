@@ -8,6 +8,8 @@
 struct D3DWindow {
 
 private:
+
+	static D3DBase* pD3D;
 	
 	const UINT m_x = 200;						// Initial position of
 	const UINT m_y = 200;						// the window on screen
@@ -24,5 +26,6 @@ public:
 	// Create the window and show it
 	void Initialize();
 	void ShowD3DWindow(int show, D3DBase* pRenderer);
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 

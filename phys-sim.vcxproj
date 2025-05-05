@@ -134,49 +134,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="d3dcomponent.cpp" />
-    <ClCompile Include="d3dinit.cpp" />
-    <ClCompile Include="d3dpipeline.cpp" />
-    <ClCompile Include="d3druntime.cpp" />
-    <ClCompile Include="d3dUtil.cpp" />
-    <ClCompile Include="geometry_helper.cpp" />
-    <ClCompile Include="image_helper.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MathHelper.cpp" />
-    <ClCompile Include="memory_util.cpp" />
-    <ClCompile Include="timer.cpp" />
-    <ClCompile Include="window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="d3dapp.h" />
-    <ClInclude Include="d3dcamera.h" />
-    <ClInclude Include="d3dcomponent.h" />
-    <ClInclude Include="d3dgui.h" />
-    <ClInclude Include="d3dinit.h" />
-    <ClInclude Include="d3dresource.h" />
-    <ClInclude Include="d3dUtil.h" />
-    <ClInclude Include="FrameResource.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="geometry.h" />
-    <ClInclude Include="image_helper.h" />
-    <ClInclude Include="MathHelper.h" />
-    <ClInclude Include="drawable.h" />
-    <ClInclude Include="memory_util.h" />
-    <ClInclude Include="structures.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="UploadBuffer.h" />
-    <ClInclude Include="window.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\main.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Shaders\util.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
+    <ClInclude Include="src\d3dcamera.h" />
+    <ClInclude Include="src\d3dgui.h" />
+    <ClInclude Include="src\d3dresource.h" />
+    <ClInclude Include="src\drawable.h" />
+    <ClInclude Include="src\FrameResource.h" />
+    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\geometry.h" />
+    <ClInclude Include="src\structures.h" />
+    <ClInclude Include="src\timer.h" />
+    <ClInclude Include="src\d3dapp.h" />
+    <ClInclude Include="src\d3dinit.h" />
+    <ClInclude Include="src\window.h" />
+    <ClInclude Include="src\d3dcomponent.h" />
+    <ClInclude Include="src\d3dUtil.h" />
+    <ClInclude Include="src\d3dx12.h" />
+    <ClInclude Include="src\image_helper.h" />
+    <ClInclude Include="src\MathHelper.h" />
+    <ClInclude Include="src\memory_util.h" />
+    <ClInclude Include="src\UploadBuffer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\d3dpipeline.cpp" />
+    <ClCompile Include="src\geometry_helper.cpp" />
+    <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\d3dinfo.cpp" />
+    <ClCompile Include="src\d3druntime.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\d3dcomponent.cpp" />
+    <ClCompile Include="src\d3dUtil.cpp" />
+    <ClCompile Include="src\image_helper.cpp" />
+    <ClCompile Include="src\MathHelper.cpp" />
+    <ClCompile Include="src\memory_util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

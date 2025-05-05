@@ -54,7 +54,7 @@ public:
 	{
 		StaticGeometryUploader<Vertex> uploader(pDevice);
 
-		CreateTerrain(&uploader, "Textures//heightmap.bmp");
+		CreateTerrain(&uploader, "resources\\Textures\\heightmap.bmp");
 		CreatePlane(&uploader, 100, 100, 128.0f, 128.0f);
 
 		uploader.ConstructGeometry(VertexBuffers[0], IndexBuffers[0], pQueue, pFence, currentValue);
@@ -70,8 +70,8 @@ public:
 
 		upload.Begin();
 
-		DirectX::CreateDDSTextureFromFile(pDevice, upload, L"Textures\\grass.dds", Textures[0].GetAddressOf());
-		DirectX::CreateDDSTextureFromFile(pDevice, upload, L"Textures\\water1.dds", Textures[1].GetAddressOf());
+		DirectX::CreateDDSTextureFromFile(pDevice, upload, L"resources\\Textures\\grass.dds", Textures[0].GetAddressOf());
+		DirectX::CreateDDSTextureFromFile(pDevice, upload, L"resources\\Textures\\water1.dds", Textures[1].GetAddressOf());
 
 		auto finish = upload.End(pQueue);
 

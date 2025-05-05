@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="util">
+      <UniqueIdentifier>{d52f044e-fcce-453e-a803-2ff5b18ff083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dynamic">
+      <UniqueIdentifier>{21a49bf6-973f-4990-ac69-4ade67e199dd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\d3dcomponent.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\d3dcamera.h">
+      <Filter>dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\timer.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MathHelper.h">
+      <Filter>util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\d3dcomponent.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\d3dinfo.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\timer.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MathHelper.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
