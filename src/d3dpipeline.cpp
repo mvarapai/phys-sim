@@ -38,18 +38,13 @@ void D3DApplication::LoadResources()
 	materials[1].Roughness = 0.0f;
 	materials[1].MatTransform = MathHelper::Identity4x4();
 
-	ObjectConstants objects[NUM_OBJECTS];
-
-	for (int i = 0; i < NUM_OBJECTS; i++)
-	{
-		objects[i].World = MathHelper::Identity4x4();
-	}
+	std::vector<ObjectConstants> objectTransforms(2, { MathHelper::Identity4x4() });
 
 	//XMMATRIX terrain = XMMatrixIdentity();
 	//terrain *= XMMatrixTranslation(0.0f, -4.0f, 0.0f);
 	//XMStoreFloat4x4(&objects[0].World, terrain);
 
-	pDynamicResources = std::make_unique<DynamicResources>(md3dDevice.Get(), objects, materials);
+	pDynamicResources = std::make_unique<DynamicResources>(md3dDevice.Get(), objectTransforms, materials);
 
 	mTerrain = std::make_unique<DefaultDrawable>(
 		pStaticResources->Geometries[0].Submeshes.at(0), 0, 0, pStaticResources->GetTextureSRV(0));

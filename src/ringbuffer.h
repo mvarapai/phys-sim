@@ -23,8 +23,8 @@ template<typename T, int batchSize>
 struct RingBuffer : UploadBuffer<T>
 {
 public:
-	RingBuffer(ID3D12Device* pDevice, bool isConstantBuffer)
-		: UploadBuffer(pDevice, batchSize, isConstantBuffer)
+	RingBuffer(ID3D12Device* pDevice, bool isConstantBuffer, std::vector<T>& cpuData)
+		: UploadBuffer<T>(pDevice, batchSize, isConstantBuffer), elementsCPU(cpuData)
 	{
 		// Create the fence with initial value 0
 		ThrowIfFailed(pDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE,
@@ -50,10 +50,10 @@ public:
 	void FrameReset()
 	{
 		nextSlotIndex = 0;
-		slotFenceValues = { };
+		std::memset(slotFenceValues, 0, sizeof(slotFenceValues));
 	}
 
-	D3D12_GPU_VIRTUAL_ADDRESS GetGPUHandle(int index) override
+	D3D12_GPU_VIRTUAL_ADDRESS GetGPUHandle(int index)
 	{
 		// Wait for next slot to become free
 		if (pFence->GetCompletedValue() < slotFenceValues[nextSlotIndex])
@@ -66,7 +66,7 @@ public:
 		}
 
 		// Copy data from function argument to next slot position, as it is safe now
-		CopyData(nextSlotIndex, elementsCPU.at(index));
+		UploadBuffer<T>::CopyData(nextSlotIndex, elementsCPU.at(index));
 		D3D12_GPU_VIRTUAL_ADDRESS addr = UploadBuffer<T>::GetGPUHandle(nextSlotIndex);
 
 		nextSlotIndex = (nextSlotIndex + 1) % batchSize;
@@ -79,5 +79,5 @@ private:
 
 	UINT64 slotFenceValues[batchSize] = { };
 	int nextSlotIndex = 0;			// In range [0, 16), as opposed to virtual indices of std::vector
-	std::vector<T> elementsCPU;		// The exact point of using ring buffer: ultimately it's just a simulation of std::vector
+	std::vector<T>& elementsCPU;	// The exact point of using ring buffer: ultimately it's just a simulation of std::vector
 };

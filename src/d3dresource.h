@@ -121,8 +121,7 @@ public:
 
 struct ConstantBufferDataCPU
 {
-	ObjectConstants ObjectTransform[NUM_OBJECTS];
-	int ObjectTransformModified[NUM_OBJECTS];		// Number dirty frames
+	std::vector<ObjectConstants> ObjectTransforms;
 
 	PassConstants PassBuffer = { };
 
@@ -135,14 +134,11 @@ struct ConstantBufferDataCPU
 	ConstantBufferDataCPU& operator=(ConstantBufferDataCPU& rhs) = delete;
 
 	// Initialize CPU memory
-	ConstantBufferDataCPU(ObjectConstants* pTransformInitialData, MaterialConstants* pMaterialInitialData)
+	ConstantBufferDataCPU(std::vector<ObjectConstants>& transformInitialData, MaterialConstants* pMaterialInitialData)
 	{
-		for (int i = 0; i < NUM_OBJECTS; i++)
-		{
-			ObjectTransform[i] = pTransformInitialData[i];
-			ObjectTransformModified[i] = NUM_FRAME_RESOURCES;
-		}
-
+		// Copy the object transform vector
+		ObjectTransforms = transformInitialData;
+		
 		for (int i = 0; i < NUM_MATERIALS; i++)
 		{
 			Materials[i] = pMaterialInitialData[i];
@@ -161,13 +157,13 @@ public:
 	FrameResource* pCurrentFrameResource = nullptr;
 
 	DynamicResources(ID3D12Device* pDevice, 
-		ObjectConstants* pTransformInitialData, MaterialConstants* pMaterialInitialData)
+		std::vector<ObjectConstants> pTransformInitialData, MaterialConstants* pMaterialInitialData)
 		: CBDataCPU(pTransformInitialData, pMaterialInitialData)
 	{
 		for (int i = 0; i < NUM_FRAME_RESOURCES; i++)
 		{
 			pFrameResources[i] =
-				std::make_unique<FrameResource>(pDevice, 1, NUM_OBJECTS, NUM_MATERIALS);
+				std::make_unique<FrameResource>(pDevice, 1, NUM_MATERIALS, CBDataCPU.ObjectTransforms);
 		}
 		pCurrentFrameResource = pFrameResources[currFrameResourceIndex].get();
 	}
@@ -193,19 +189,9 @@ public:
 
 	void UpdateConstantBuffers()
 	{
-		// Update GPU buffer for object constants
-
-		for (UINT i = 0; i < NUM_OBJECTS; i++)
-		{
-			// Copy only is modified
-			if (CBDataCPU.ObjectTransformModified[i] > 0)
-			{
-				pCurrentFrameResource->ObjectCB->CopyData(i,
-					CBDataCPU.ObjectTransform[i]);
-
-				CBDataCPU.ObjectTransformModified[i]--;
-			}
-		}
+		// Reset the object CB. Object transform data are uploaded dynamically
+		// through the usage of GetGPUHandle()
+		pCurrentFrameResource->ObjectCB->FrameReset();
 
 		// Update GPU buffer for pass constants
 
@@ -230,8 +216,7 @@ public:
 
 	void SetObjectTransform(UINT index, const ObjectConstants& transform)
 	{
-		CBDataCPU.ObjectTransform[index] = transform;
-		CBDataCPU.ObjectTransformModified[index] = NUM_FRAME_RESOURCES;
+		CBDataCPU.ObjectTransforms[index] = transform;
 	}
 
 	// We let application do pass constants assignment
@@ -246,7 +231,7 @@ public:
 		CBDataCPU.MaterialModified[index] = NUM_FRAME_RESOURCES;
 	}
 
-	ObjectConstants GetTransform(UINT index) { return CBDataCPU.ObjectTransform[index]; }
+	ObjectConstants GetTransform(UINT index) { return CBDataCPU.ObjectTransforms[index]; }
 	PassConstants GetPassConstants() { return CBDataCPU.PassBuffer; }
 	MaterialConstants GetMaterialConstants(UINT index) { return CBDataCPU.Materials[index]; }
 

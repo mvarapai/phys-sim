@@ -156,6 +156,7 @@
     <ClInclude Include="src\UploadBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\RingBuffer.h" />
     <ClCompile Include="src\d3dpipeline.cpp" />
     <ClCompile Include="src\geometry_helper.cpp" />
     <ClCompile Include="src\timer.cpp" />

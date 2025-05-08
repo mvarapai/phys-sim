@@ -13,6 +13,7 @@
 #include <memory>
 
 #include "UploadBuffer.h"
+#include "RingBuffer.h"
 #include "d3dUtil.h"
 #include "structures.h"
 
@@ -21,13 +22,13 @@ struct FrameResource
 public:
 	// Constructor to create command allocator and initialize memory
 	// for frame constant buffers
-	FrameResource(ID3D12Device* pDevice, UINT passCount, UINT objCount, UINT materialCount)
+	FrameResource(ID3D12Device* pDevice, UINT passCount, UINT materialCount, std::vector<ObjectConstants>& objCPU)
 	{
 		pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
 			IID_PPV_ARGS(CommandListAllocator.GetAddressOf()));
 
 		PassCB = std::make_unique<UploadBuffer<PassConstants>>(pDevice, passCount, true);
-		ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(pDevice, objCount, true);
+		ObjectCB = std::make_unique<RingBuffer<ObjectConstants, 16>>(pDevice, true, objCPU);
 		MaterialCB = std::make_unique<UploadBuffer<MaterialConstants>>(pDevice, materialCount, true);
 	}
 
@@ -42,7 +43,7 @@ public:
 	// Each frame has its own associated constant buffer resources, used
 	// to render the scene.
 	std::unique_ptr<UploadBuffer<PassConstants>>		PassCB = nullptr;
-	std::unique_ptr<UploadBuffer<ObjectConstants>>		ObjectCB = nullptr;
+	std::unique_ptr<RingBuffer<ObjectConstants, 16>>	ObjectCB = nullptr;
 	std::unique_ptr<UploadBuffer<MaterialConstants>>	MaterialCB = nullptr;
 
 	// Fence value to mark commands up to this fence point. This lets us

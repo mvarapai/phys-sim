@@ -4,111 +4,123 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="util">
+    <Filter Include="rendering">
+      <UniqueIdentifier>{86db6cb7-3f22-4248-817a-e592ca3ae9c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rendering\util">
       <UniqueIdentifier>{d52f044e-fcce-453e-a803-2ff5b18ff083}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dynamic">
-      <UniqueIdentifier>{21a49bf6-973f-4990-ac69-4ade67e199dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="geometry">
-      <UniqueIdentifier>{8e38e0bf-4753-49da-b4b8-1af14dc8fba2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="pipeline">
+    <Filter Include="rendering\pipeline">
       <UniqueIdentifier>{8de2af18-d285-4b2e-b42f-effd9b097376}</UniqueIdentifier>
     </Filter>
-    <Filter Include="main">
+    <Filter Include="rendering\main">
       <UniqueIdentifier>{4e858320-6a3f-46cc-892c-a74e7b41a988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rendering\geometry">
+      <UniqueIdentifier>{8e38e0bf-4753-49da-b4b8-1af14dc8fba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rendering\dynamic">
+      <UniqueIdentifier>{21a49bf6-973f-4990-ac69-4ade67e199dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{421098c2-f873-4e67-a0c7-ba6d4ddc000b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="simulation">
+      <UniqueIdentifier>{0c6022db-7ae9-4d9f-8f8e-4e96a35d3373}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\d3dcomponent.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\d3dcamera.h">
-      <Filter>dynamic</Filter>
+      <Filter>rendering\dynamic</Filter>
     </ClInclude>
     <ClInclude Include="src\MathHelper.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\geometry.h">
-      <Filter>geometry</Filter>
+      <Filter>rendering\geometry</Filter>
     </ClInclude>
     <ClInclude Include="src\image_helper.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\d3dx12.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\d3dUtil.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\UploadBuffer.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\memory_util.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\FrameResource.h">
-      <Filter>dynamic</Filter>
+      <Filter>rendering\dynamic</Filter>
     </ClInclude>
     <ClInclude Include="src\structures.h">
-      <Filter>dynamic</Filter>
+      <Filter>rendering\dynamic</Filter>
     </ClInclude>
     <ClInclude Include="src\drawable.h">
-      <Filter>dynamic</Filter>
+      <Filter>rendering\dynamic</Filter>
     </ClInclude>
     <ClInclude Include="src\d3dresource.h">
-      <Filter>dynamic</Filter>
+      <Filter>rendering\dynamic</Filter>
     </ClInclude>
     <ClInclude Include="src\d3dapp.h">
-      <Filter>main</Filter>
+      <Filter>rendering\main</Filter>
     </ClInclude>
     <ClInclude Include="src\d3dinit.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\window.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\timer.h">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\d3dcomponent.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClCompile>
     <ClCompile Include="src\d3dinfo.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClCompile>
     <ClCompile Include="src\MathHelper.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClCompile>
     <ClCompile Include="src\geometry_helper.cpp">
-      <Filter>geometry</Filter>
+      <Filter>rendering\geometry</Filter>
     </ClCompile>
     <ClCompile Include="src\d3dpipeline.cpp">
-      <Filter>pipeline</Filter>
+      <Filter>rendering\pipeline</Filter>
     </ClCompile>
     <ClCompile Include="src\image_helper.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClCompile>
     <ClCompile Include="src\memory_util.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClCompile>
     <ClCompile Include="src\d3dUtil.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>main</Filter>
+      <Filter>rendering\main</Filter>
     </ClCompile>
     <ClCompile Include="src\d3druntime.cpp">
-      <Filter>main</Filter>
+      <Filter>rendering\main</Filter>
     </ClCompile>
     <ClCompile Include="src\window.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
     </ClCompile>
     <ClCompile Include="src\timer.cpp">
-      <Filter>util</Filter>
+      <Filter>rendering\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RingBuffer.h">
+      <Filter>rendering\dynamic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
