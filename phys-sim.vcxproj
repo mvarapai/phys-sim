@@ -138,11 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\d3dcamera.h" />
-    <ClInclude Include="src\d3dgui.h" />
     <ClInclude Include="src\d3dresource.h" />
     <ClInclude Include="src\drawable.h" />
     <ClInclude Include="src\FrameResource.h" />
-    <ClInclude Include="src\game.h" />
     <ClInclude Include="src\geometry.h" />
     <ClInclude Include="src\structures.h" />
     <ClInclude Include="src\timer.h" />
