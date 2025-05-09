@@ -41,9 +41,9 @@ public:
 	void UpdateElementCPU(T& elem, int index)
 	{
 		if (index >= elementsCPU)
-			return elementsCPU.push_back(T);
+			return elementsCPU.push_back(elem);
 
-		elementsCPU[index] = T;
+		elementsCPU[index] = elem;
 	}
 
 	// Reset in the beginning of every frame

@@ -81,6 +81,12 @@
     <ClInclude Include="src\timer.h">
       <Filter>rendering\util</Filter>
     </ClInclude>
+    <ClInclude Include="src\communication.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config.h">
+      <Filter>common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\d3dcomponent.cpp">
