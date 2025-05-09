@@ -5,14 +5,6 @@
 
 #include "MathHelper.h"
 
-// Structure describing vertex buffer element format
-struct Vertex
-{
-	DirectX::XMFLOAT3 Pos;		// Position in non-homogeneous coordinates
-	DirectX::XMFLOAT3 Normal;	// Vertex normal
-	DirectX::XMFLOAT2 TexC;		// Texture coordinates
-};
-
 struct ObjectConstants
 {
 	DirectX::XMFLOAT4X4 World = MathHelper::Identity4x4();
