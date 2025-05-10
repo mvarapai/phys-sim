@@ -12,131 +12,127 @@
 #include <DirectXMath.h>
 #include <array>
 
-// Position only
+class VertexBase { };
 
-struct VertexPosOnly
+// Position only
+struct VertexPosOnly : VertexBase
 {
+private:
+	constexpr static D3D12_INPUT_ELEMENT_DESC _arrVertexPosOnly[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+	};
+
+public:
+	constexpr static D3D12_INPUT_LAYOUT_DESC InputLayoutDesc
+	{
+		_arrVertexPosOnly,
+		static_cast<UINT>(std::size(_arrVertexPosOnly))
+	};
+
+public:
 	DirectX::XMFLOAT3 _Pos;
 };
 
-constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexPosOnly[] =
-{
-	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-};
-
-constexpr D3D12_INPUT_LAYOUT_DESC InputLayoutDesc_VertexPosOnly
-{
-	_arrVertexPosOnly,
-	static_cast<UINT>(std::size(_arrVertexPosOnly))
-};
-
-
-// ---------------------------------------------------------
-
-
 // Position and color
-
-struct VertexCol
+struct VertexCol : VertexBase
 {
+private:
+	static constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexCol[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+	};
+
+public:
+	static constexpr D3D12_INPUT_LAYOUT_DESC InputLayoutDesc
+	{
+		_arrVertexCol,
+		static_cast<UINT>(std::size(_arrVertexCol))
+	};
+
+public:
 	DirectX::XMFLOAT3 _Pos;
 	DirectX::XMFLOAT4 _Color;
 };
 
-constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexCol[] =
-{
-	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-	{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-};
-
-constexpr D3D12_INPUT_LAYOUT_DESC InputLayoutDesc_VertexCol
-{
-	_arrVertexCol,
-	static_cast<UINT>(std::size(_arrVertexCol))
-};
-
-
-// ---------------------------------------------------------
-
-
 // Position and texture
-
-struct VertexTex
+struct VertexTex : VertexBase
 {
+private:
+	static constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexTex[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+	};
+
+public:
+	static constexpr D3D12_INPUT_LAYOUT_DESC InputLayoutDesc
+	{
+		_arrVertexTex,
+		static_cast<UINT>(std::size(_arrVertexTex))
+	};
+
+public:
 	DirectX::XMFLOAT3 _Pos;
 	DirectX::XMFLOAT2 _Tex;
 };
 
-constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexTex[] =
-{
-	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-};
-
-constexpr D3D12_INPUT_LAYOUT_DESC InputLayoutDesc_VertexTex
-{
-	_arrVertexTex,
-	static_cast<UINT>(std::size(_arrVertexTex))
-};
-
-
-// ---------------------------------------------------------
-
-
 // Position, normal, and texture
-
-struct VertexPosNormTex
+struct VertexPosNormTex : VertexBase
 {
+private:
+	static constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexPosNormTex[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+	};
+
+public:
+	static constexpr D3D12_INPUT_LAYOUT_DESC InputLayoutDesc
+	{
+		_arrVertexPosNormTex,
+		static_cast<UINT>(std::size(_arrVertexPosNormTex))
+	};
+
+public:
 	DirectX::XMFLOAT3 _Pos;
 	DirectX::XMFLOAT3 _Normal;
 	DirectX::XMFLOAT2 _Tex;
 };
 
-constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexPosNormTex[] =
-{
-	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-	{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-};
-
-constexpr D3D12_INPUT_LAYOUT_DESC InputLayout_VertexPosNormTex
-{
-	_arrVertexPosNormTex,
-	static_cast<UINT>(std::size(_arrVertexPosNormTex))
-};
-
-
-// ---------------------------------------------------------
-
-
 // 2D position, UV and color
-
-struct VertexUI
+struct VertexUI : VertexBase
 {
+private:
+	static constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexUI[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 8,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 16,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+	};
+
+public:
+	static constexpr D3D12_INPUT_LAYOUT_DESC InputLayoutDesc
+	{
+		_arrVertexUI,
+		static_cast<UINT>(std::size(_arrVertexUI))
+	};
+
+public:
 	DirectX::XMFLOAT2 _uiPos;
 	DirectX::XMFLOAT2 _Tex;
 	DirectX::XMFLOAT4 _Color;
-};
-
-constexpr D3D12_INPUT_ELEMENT_DESC _arrVertexUI[] =
-{
-	{ "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 8,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-	{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 16,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-};
-
-constexpr D3D12_INPUT_LAYOUT_DESC InputLayout_VertexUI
-{
-	_arrVertexUI,
-	static_cast<UINT>(std::size(_arrVertexUI))
 };
