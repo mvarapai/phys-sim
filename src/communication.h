@@ -19,6 +19,6 @@ struct RenderObject
 // Struct defining all DirectX needs to know to render the simulation.
 struct RenderDataShared
 {
-
+	
 };
 

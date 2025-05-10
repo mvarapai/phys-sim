@@ -10,14 +10,8 @@
     <Filter Include="rendering\util">
       <UniqueIdentifier>{d52f044e-fcce-453e-a803-2ff5b18ff083}</UniqueIdentifier>
     </Filter>
-    <Filter Include="rendering\pipeline">
-      <UniqueIdentifier>{8de2af18-d285-4b2e-b42f-effd9b097376}</UniqueIdentifier>
-    </Filter>
     <Filter Include="rendering\main">
       <UniqueIdentifier>{4e858320-6a3f-46cc-892c-a74e7b41a988}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="rendering\geometry">
-      <UniqueIdentifier>{8e38e0bf-4753-49da-b4b8-1af14dc8fba2}</UniqueIdentifier>
     </Filter>
     <Filter Include="rendering\dynamic">
       <UniqueIdentifier>{21a49bf6-973f-4990-ac69-4ade67e199dd}</UniqueIdentifier>
@@ -28,19 +22,19 @@
     <Filter Include="simulation">
       <UniqueIdentifier>{0c6022db-7ae9-4d9f-8f8e-4e96a35d3373}</UniqueIdentifier>
     </Filter>
+    <Filter Include="delete">
+      <UniqueIdentifier>{6e16eca0-8149-4cbb-adf9-69407a3d02c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rendering\RESOURCE_LAYER">
+      <UniqueIdentifier>{8e38e0bf-4753-49da-b4b8-1af14dc8fba2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\d3dcomponent.h">
       <Filter>rendering\util</Filter>
     </ClInclude>
-    <ClInclude Include="src\d3dcamera.h">
-      <Filter>rendering\dynamic</Filter>
-    </ClInclude>
     <ClInclude Include="src\MathHelper.h">
       <Filter>rendering\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\geometry.h">
-      <Filter>rendering\geometry</Filter>
     </ClInclude>
     <ClInclude Include="src\image_helper.h">
       <Filter>rendering\util</Filter>
@@ -56,9 +50,6 @@
     </ClInclude>
     <ClInclude Include="src\memory_util.h">
       <Filter>rendering\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FrameResource.h">
-      <Filter>rendering\dynamic</Filter>
     </ClInclude>
     <ClInclude Include="src\structures.h">
       <Filter>rendering\dynamic</Filter>
@@ -87,6 +78,24 @@
     <ClInclude Include="src\config.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="src\simulation.h">
+      <Filter>simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PredefinedVertexStructures.h">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry.h">
+      <Filter>rendering\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\d3dcamera.h">
+      <Filter>rendering\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceAssembler.h">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RootSignature.h">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\d3dcomponent.cpp">
@@ -97,12 +106,6 @@
     </ClCompile>
     <ClCompile Include="src\MathHelper.cpp">
       <Filter>rendering\util</Filter>
-    </ClCompile>
-    <ClCompile Include="src\geometry_helper.cpp">
-      <Filter>rendering\geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="src\d3dpipeline.cpp">
-      <Filter>rendering\pipeline</Filter>
     </ClCompile>
     <ClCompile Include="src\image_helper.cpp">
       <Filter>rendering\util</Filter>
@@ -127,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="src\RingBuffer.h">
       <Filter>rendering\dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\d3dpipeline.cpp">
+      <Filter>delete</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry_helper.cpp">
+      <Filter>rendering\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

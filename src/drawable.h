@@ -92,11 +92,7 @@ public:
 		FrameResource* pCurrentFrameResource) override
 	{
 		// Set the CB descriptor to the 1 slot of descriptor table
-		pCmdList->SetGraphicsRootConstantBufferView(1, 
-			pCurrentFrameResource->ObjectCB->GetGPUHandle(ObjectCBIndex));
-		pCmdList->SetGraphicsRootConstantBufferView(2, 
-			pCurrentFrameResource->MaterialCB->GetGPUHandle(MaterialCBIndex));
-		pCmdList->SetGraphicsRootDescriptorTable(3, TextureHandle);
+		
 	}
 private:
 	UINT ObjectCBIndex = 0;

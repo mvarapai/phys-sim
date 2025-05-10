@@ -54,32 +54,32 @@ void D3DApplication::LoadResources()
 
 }
 
-// Compile shaders and create input layout
-void D3DApplication::BuildShadersAndInputLayout()
-{
-	HRESULT hr = S_OK;
-
-	const D3D_SHADER_MACRO defines[] =
-	{
-		"FOG", "1",
-		NULL, NULL
-	};
-
-	mDefaultShader.mvsByteCode = CompileShader(L"resources\\Shaders\\main.hlsl",
-		defines, "VS", "vs_5_0");
-	mDefaultShader.mpsByteCode = CompileShader(L"resources\\Shaders\\main.hlsl",
-		defines, "PS", "ps_5_0");
-
-	mDefaultShader.mInputLayout =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-	};
-}
+//// Compile shaders and create input layout
+//void D3DApplication::BuildShadersAndInputLayout()
+//{
+//	HRESULT hr = S_OK;
+//
+//	const D3D_SHADER_MACRO defines[] =
+//	{
+//		"FOG", "1",
+//		NULL, NULL
+//	};
+//
+//	mDefaultShader.mvsByteCode = CompileShader(L"resources\\Shaders\\main.hlsl",
+//		defines, "VS", "vs_5_0");
+//	mDefaultShader.mpsByteCode = CompileShader(L"resources\\Shaders\\main.hlsl",
+//		defines, "PS", "ps_5_0");
+//
+//	mDefaultShader.mInputLayout =
+//	{
+//		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+//		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+//		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12,
+//		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+//		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24,
+//		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+//	};
+//}
 
 void D3DApplication::BuildPSO()
 {

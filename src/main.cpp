@@ -10,8 +10,6 @@
 
 #include "window.h"
 #include "timer.h"
-#include "d3dinit.h"
-#include "d3dUtil.h"
 #include "d3dapp.h"
 
 // Entry point to the app

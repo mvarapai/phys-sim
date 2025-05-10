@@ -16,13 +16,9 @@
 
 #include "structures.h"
 #include "geometry.h"
-#include "FrameResource.h"
+#include "RingBuffer.h"
 
-#define NUM_OBJECTS 2
-#define NUM_MATERIALS 2
-
-#define NUM_TEXTURES 2
-#define NUM_GEOMETRIES 1
+#define CBUFFER_MAX_SIZE 64
 
 #define NUM_FRAME_RESOURCES 3
 
@@ -128,10 +124,6 @@ struct ConstantBufferDataCPU
 	MaterialConstants Materials[NUM_MATERIALS];
 	int MaterialModified[NUM_MATERIALS];			// Number dirty frames
 
-	// Delete default and copy constuctors
-	ConstantBufferDataCPU() = delete;
-	ConstantBufferDataCPU(ConstantBufferDataCPU& other) = delete;
-	ConstantBufferDataCPU& operator=(ConstantBufferDataCPU& rhs) = delete;
 
 	// Initialize CPU memory
 	ConstantBufferDataCPU(std::vector<ObjectConstants>& transformInitialData, MaterialConstants* pMaterialInitialData)
@@ -147,12 +139,37 @@ struct ConstantBufferDataCPU
 	}
 };
 
-class DynamicResources
+class FrameResourceManager
 {
+	struct FrameResource
+	{
+		FrameResource(ID3D12Device* pDevice, 
+			std::vector<ObjectConstants>& objCPU,
+			std::vector<MaterialConstants>& materialCPU)
+		{
+			pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
+				IID_PPV_ARGS(CommandListAllocator.GetAddressOf()));
+
+			PassCB = std::make_unique<UploadBuffer<PassConstants>>(pDevice, passCount, true);
+			ObjectCB = std::make_unique<RingBuffer<ObjectConstants, CBUFFER_MAX_SIZE>>(pDevice, true, objCPU);
+			MaterialCB = std::make_unique<UploadBuffer<MaterialConstants>>(pDevice, materialCount, true);
+		}
+
+		Microsoft::WRL::ComPtr<ID3D12CommandAllocator>		CommandListAllocator = nullptr;
+
+		std::unique_ptr<UploadBuffer<PassConstants>>						PassCB = nullptr;
+		std::unique_ptr<RingBuffer<ObjectConstants, CBUFFER_MAX_SIZE>>		ObjectCB = nullptr;
+		std::unique_ptr<RingBuffer<MaterialConstants, CBUFFER_MAX_SIZE>>	MaterialCB = nullptr;
+
+		UINT64 Fence = 0;
+	};
+
 	std::unique_ptr<FrameResource> pFrameResources[NUM_FRAME_RESOURCES];
 	UINT currFrameResourceIndex = 0;
 
 	ConstantBufferDataCPU CBDataCPU;
+
+
 public:
 	FrameResource* pCurrentFrameResource = nullptr;
 
@@ -235,10 +252,4 @@ public:
 	PassConstants GetPassConstants() { return CBDataCPU.PassBuffer; }
 	MaterialConstants GetMaterialConstants(UINT index) { return CBDataCPU.Materials[index]; }
 
-	D3D12_GPU_VIRTUAL_ADDRESS GetObjectCBDescriptor(UINT index) 
-	{ return pCurrentFrameResource->ObjectCB->GetGPUHandle(index); }
-	D3D12_GPU_VIRTUAL_ADDRESS GetPassCBDescriptor() 
-	{ return pCurrentFrameResource->PassCB->GetGPUHandle(0); }
-	D3D12_GPU_VIRTUAL_ADDRESS GetMaterialCBDescriptor(UINT index) 
-	{ return pCurrentFrameResource->MaterialCB->GetGPUHandle(index); }
 };
