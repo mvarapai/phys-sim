@@ -1,0 +1,40 @@
+{
+	"textures": [
+		{
+			"name": "TEX_GRASS",
+			"file": "grass.dds"
+		},
+		{
+			"name": "TEX_WATER",
+			"file": "water1.dds"
+		},
+		{
+			"name": "TEX_FENCE",
+			"file": "WireFence.dds"
+		}
+	],
+	"shaders": [
+		{
+			"name": "default_lit_VS",
+			"type": "VS",
+			"source": "default_lit.hlsl",
+			"root_signature": "default_root_signature",
+			"vertex_type": "posnormtex"
+		},
+		{
+			"name": "default_lit_PS",
+			"type": "PS",
+			"source": "default_lit.hlsl",
+			"root_signature": "default_root_signature",
+			"defines": [
+				{
+					"name": "FOG",
+					"value": 1
+				}
+			]
+		}
+	],
+	"pso": [
+		"default"
+	]
+}

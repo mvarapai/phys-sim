@@ -26,21 +26,14 @@ class Shader
 {
 protected:
 	ID3D12RootSignature*								pRootSignature = nullptr;
-	Microsoft::WRL::ComPtr<ID3DBlob>					mvsByteCode = nullptr;
-	Microsoft::WRL::ComPtr<ID3DBlob>					mpsByteCode = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob>					bytecode = nullptr;
 
 	virtual D3D12_INPUT_LAYOUT_DESC GetInputLayoutDesc() = 0;
 
-	D3D12_SHADER_BYTECODE GetVertexShader()
+	D3D12_SHADER_BYTECODE GetBytecode()
 	{
-		return { reinterpret_cast<BYTE*>(mvsByteCode->GetBufferPointer()),
+		return { reinterpret_cast<BYTE*>(bytecode->GetBufferPointer()),
 			mvsByteCode->GetBufferSize() };
-	}
-
-	D3D12_SHADER_BYTECODE GetPixelShader()
-	{
-		return { reinterpret_cast<BYTE*>(mpsByteCode->GetBufferPointer()),
-			mpsByteCode->GetBufferSize() };
 	}
 
 public:

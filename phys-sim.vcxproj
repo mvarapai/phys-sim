@@ -85,6 +85,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(PHYSX_INCLUDE_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,6 +102,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Mikalai\repos\PhysX\physx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -117,6 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(PHYSX_INCLUDE_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,6 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Mikalai\repos\PhysX\physx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,11 +161,14 @@
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\d3dcamera.h" />
     <ClInclude Include="src\d3dresource.h" />
+    <ClInclude Include="src\DebugPrint.h" />
     <ClInclude Include="src\drawable.h" />
     <ClInclude Include="src\geometry.h" />
+    <ClInclude Include="src\IEnumerable.h" />
     <ClInclude Include="src\PredefinedVertexStructures.h" />
     <ClInclude Include="src\ResourceAssembler.h" />
     <ClInclude Include="src\RootSignature.h" />
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\simulation.h" />
     <ClInclude Include="src\structures.h" />
     <ClInclude Include="src\timer.h" />
@@ -177,6 +184,7 @@
     <ClInclude Include="src\UploadBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ResourceAssembler.cpp" />
     <ClCompile Include="src\RingBuffer.h" />
     <ClCompile Include="src\d3dpipeline.cpp" />
     <ClCompile Include="src\geometry_helper.cpp" />
@@ -194,11 +202,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\directxtk12_desktop_2019.2023.10.31.1\build\native\directxtk12_desktop_2019.targets" Condition="Exists('packages\directxtk12_desktop_2019.2023.10.31.1\build\native\directxtk12_desktop_2019.targets')" />
+    <Import Project="packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets" Condition="Exists('packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\directxtk12_desktop_2019.2023.10.31.1\build\native\directxtk12_desktop_2019.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk12_desktop_2019.2023.10.31.1\build\native\directxtk12_desktop_2019.targets'))" />
+    <Error Condition="!Exists('packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
   </Target>
 </Project>

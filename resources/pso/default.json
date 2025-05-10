@@ -1,0 +1,84 @@
+{
+  "RootSignature": "default_root_signature",
+
+  "Shaders": {
+    "VS": "default_lit_VS",
+    "PS": "default_lit_PS",
+    "HS": null,
+    "DS": null,
+    "GS": null
+  },
+
+  "VertexType": "posnormtex",
+  "PrimitiveTopologyType": "TRIANGLE",
+
+  "RasterizerState": {
+    "FillMode": "SOLID",
+    "CullMode": "BACK",
+    "FrontCounterClockwise": false,
+    "DepthBias": 0,
+    "DepthBiasClamp": 0.0,
+    "SlopeScaledDepthBias": 0.0,
+    "DepthClipEnable": true,
+    "MultisampleEnable": false,
+    "AntialiasedLineEnable": false,
+    "ForcedSampleCount": 0,
+    "ConservativeRaster": "OFF"
+  },
+
+  "BlendState": {
+    "AlphaToCoverageEnable": false,
+    "IndependentBlendEnable": false,
+    "RenderTarget": [
+      {
+        "BlendEnable": false,
+        "LogicOpEnable": false,
+        "SrcBlend": "ONE",
+        "DestBlend": "ZERO",
+        "BlendOp": "ADD",
+        "SrcBlendAlpha": "ONE",
+        "DestBlendAlpha": "ZERO",
+        "BlendOpAlpha": "ADD",
+        "LogicOp": "NOOP",
+        "RenderTargetWriteMask": 15
+      }
+    ]
+  },
+
+  "DepthStencilState": {
+    "DepthEnable": true,
+    "DepthWriteMask": "ALL",
+    "DepthFunc": "LESS_EQUAL",
+    "StencilEnable": false,
+    "StencilReadMask": 255,
+    "StencilWriteMask": 255,
+    "FrontFace": {
+      "StencilFailOp": "KEEP",
+      "StencilDepthFailOp": "KEEP",
+      "StencilPassOp": "KEEP",
+      "StencilFunc": "ALWAYS"
+    },
+    "BackFace": {
+      "StencilFailOp": "KEEP",
+      "StencilDepthFailOp": "KEEP",
+      "StencilPassOp": "KEEP",
+      "StencilFunc": "ALWAYS"
+    }
+  },
+
+  "SampleMask": 4294967295,
+  "NumRenderTargets": 1,
+  "RTVFormats": [ "R8G8B8A8_UNORM" ],
+  "DSVFormat": "D32_FLOAT",
+  "SampleDesc": {
+    "Count": 1,
+    "Quality": 0
+  },
+
+  "NodeMask": 0,
+  "CachedPSO": {
+    "BlobSizeInBytes": 0,
+    "BlobData": null
+  },
+  "Flags": 0
+}

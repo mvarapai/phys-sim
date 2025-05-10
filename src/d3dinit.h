@@ -190,6 +190,8 @@ protected:
 public:
 	bool IsPaused() { return mAppPaused; }
 
+	ID3D12Device* GetDevice() { return md3dDevice.Get(); }
+
 	/**********************************************************
 	*					Runtime functions
 	**********************************************************/

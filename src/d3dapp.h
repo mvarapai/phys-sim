@@ -9,22 +9,7 @@
  */
 class D3DApplication : public D3DBase
 {
-	std::unique_ptr<StaticResources>					pStaticResources = nullptr;
-	std::unique_ptr<DynamicResources>					pDynamicResources = nullptr;
-
-	Shader												mDefaultShader;
-
-	// An array of pipeline states
-	static const int									gNumRenderModes = 3;
-
-	Microsoft::WRL::ComPtr<ID3D12PipelineState>			mDefaultPSO = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState>			mLinePSO = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState>			mBlendPSO = nullptr;
-
 	std::unique_ptr<Camera>								mCamera = nullptr;
-
-	std::unique_ptr<DefaultDrawable>					mTerrain = nullptr;
-	std::unique_ptr<DefaultDrawable>					mWater = nullptr;
 
 	DirectX::XMFLOAT4X4 mProj = MathHelper::Identity4x4();
 
@@ -34,9 +19,6 @@ private:
 		LoadResources();
 		mCamera = std::make_unique<Camera>(DirectX::XMVectorSet(5.0f, 2.0f, 5.0f, 1.0f),
 			DirectX::XM_PI * 7 / 4, -0.2f, mTimer.get());
-
-		// temp
-		D3DHelper::CreateDefaultRootSignature(md3dDevice.Get(), mDefaultShader.mRootSignature.GetAddressOf());
 
 		BuildShadersAndInputLayout();
 		BuildPSO();

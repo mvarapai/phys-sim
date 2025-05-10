@@ -28,6 +28,9 @@
     <Filter Include="rendering\RESOURCE_LAYER">
       <UniqueIdentifier>{8e38e0bf-4753-49da-b4b8-1af14dc8fba2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="workspace_util">
+      <UniqueIdentifier>{2f082c41-518f-4e96-ba5e-3ef696073ebb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\d3dcomponent.h">
@@ -96,6 +99,15 @@
     <ClInclude Include="src\RootSignature.h">
       <Filter>rendering\RESOURCE_LAYER</Filter>
     </ClInclude>
+    <ClInclude Include="src\Shader.h">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DebugPrint.h">
+      <Filter>rendering\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IEnumerable.h">
+      <Filter>workspace_util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\d3dcomponent.cpp">
@@ -136,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="src\geometry_helper.cpp">
       <Filter>rendering\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceAssembler.cpp">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

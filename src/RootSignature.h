@@ -15,17 +15,23 @@
 
 #include <d3d12.h>
 #include <wrl.h>
+#include <tuple>
+
 #include "d3dUtil.h"
+#include "IEnumerable.h"
 
 // DEFINES
 
 #define MAX_TEXTURES_PER_CALL 16
 
 // Root signature wrapper class. Does nothing by itself.
-class RootSignature
+class RootSignature : public IEnumerableFactory<RootSignature>
 {
 protected:
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> mRootSig = nullptr;
+	static ID3D12Device* pDevice;
+
+	static std::unordered_map<std::string, RootSignature*> mRootSignatureMap;
 
 public:
 
@@ -39,7 +45,18 @@ public:
 	}
 	virtual void SetRootParametersPerDraw(ID3D12GraphicsCommandList* pCmdList, void* pParams, UINT paramByteLength) = 0;
 	virtual void SetRootParametersPerPass(ID3D12GraphicsCommandList* pCmdList, void* pParams, UINT paramByteLength) = 0;
+
+public:
+	static RootSignature* Get(std::string name)
+	{
+		if (mRootSignatureMap.find(name) != mRootSignatureMap.end()) return nullptr;
+		return mRootSignatureMap[name];
+	}
+
+	static void SetD3DDevice(ID3D12Device* pd3dDevice) { pDevice = pd3dDevice; }
 };
+
+
 
 // b0		: per pass CBV
 // b1		: object transform matrix CBV
@@ -47,6 +64,7 @@ public:
 // t(0..15) : texture SRV slots
 class RootSignature_Default : public RootSignature
 {
+	static constexpr LPCSTR name = "default_root_signature";
 public:
 	struct PerPass
 	{
@@ -59,8 +77,11 @@ public:
 		D3D12_GPU_DESCRIPTOR_HANDLE srvTextureBase;
 	};
 public:
-	RootSignature_Default(ID3D12Device* pDevice)
+	RootSignature_Default()
 	{
+		// Add this signature to the list
+		mRootSignatureMap[name] = this;
+
 		// Root parameter can be a table, root descriptor or root constants.
 		D3D12_ROOT_PARAMETER slotRootParameters[4] = { };
 
@@ -167,9 +188,11 @@ public:
 		if (paramByteLength != sizeof(PerDraw)) return;
 
 		PerDraw* mem = reinterpret_cast<PerDraw*>(pParams);
-
+		
 		pCmdList->SetGraphicsRootConstantBufferView(1, mem->objectCB);
 		pCmdList->SetGraphicsRootConstantBufferView(2, mem->dynamicMaterialCB);
 		pCmdList->SetGraphicsRootDescriptorTable(3, mem->srvTextureBase);
 	}
 };
+
+REGISTER_CLASS_SIGNATURE(RootSignature_Default, RootSignature)
