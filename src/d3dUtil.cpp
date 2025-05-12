@@ -74,11 +74,12 @@ const D3D12_RESOURCE_DESC BufferDesc(UINT64 width)
     return bufferDesc;
 }
 
-Microsoft::WRL::ComPtr<ID3DBlob> CompileShader(
+void CompileShader(
     const std::wstring& filename,
     const D3D_SHADER_MACRO* defines,
     const std::string& entrypoint,
-    const std::string& target)
+    const std::string& target,
+    ID3DBlob** ppShaderBytecode)
 {
     UINT compileFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)
@@ -87,7 +88,6 @@ Microsoft::WRL::ComPtr<ID3DBlob> CompileShader(
 
     HRESULT hr = S_OK;
 
-    ComPtr<ID3DBlob> byteCode = nullptr;
     ComPtr<ID3DBlob> errors = nullptr;
 
     hr = D3DCompileFromFile(filename.c_str(),
@@ -97,7 +97,7 @@ Microsoft::WRL::ComPtr<ID3DBlob> CompileShader(
         target.c_str(),
         compileFlags,
         0,
-        byteCode.GetAddressOf(),
+        ppShaderBytecode,
         errors.GetAddressOf());
 
     // Handle errors
@@ -105,8 +105,8 @@ Microsoft::WRL::ComPtr<ID3DBlob> CompileShader(
     {
         OutputDebugStringA((char*)errors->GetBufferPointer());
     }
+
     ThrowIfFailed(hr);
-    return byteCode;
 }
 
 // Utility function to that creates default buffer and uploads

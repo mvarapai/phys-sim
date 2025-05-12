@@ -15,7 +15,7 @@
 
 #include <d3d12.h>
 #include <wrl.h>
-#include <tuple>
+#include <unordered_map>
 
 #include "d3dUtil.h"
 #include "IEnumerable.h"
@@ -25,16 +25,20 @@
 #define MAX_TEXTURES_PER_CALL 16
 
 // Root signature wrapper class. Does nothing by itself.
-class RootSignature : public IEnumerableFactory<RootSignature>
+class RootSignature
 {
-protected:
+public:
+	static std::unordered_map<std::string, std::unique_ptr<RootSignature>>& RootSignatureDictionary()
+	{
+		static std::unordered_map<std::string, std::unique_ptr<RootSignature>> map;
+		return map;
+	}
+
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> mRootSig = nullptr;
+protected:
 	static ID3D12Device* pDevice;
 
-	static std::unordered_map<std::string, RootSignature*> mRootSignatureMap;
-
 public:
-
 	RootSignature() = default;
 	void SetRootSignature(ID3D12GraphicsCommandList* pCmdList, ID3D12DescriptorHeap** ppDescHeapArray, UINT numDescHeaps)
 	{
@@ -49,11 +53,16 @@ public:
 public:
 	static RootSignature* Get(std::string name)
 	{
-		if (mRootSignatureMap.find(name) != mRootSignatureMap.end()) return nullptr;
-		return mRootSignatureMap[name];
+		if (RootSignatureDictionary().find(name) != RootSignatureDictionary().end()) return nullptr;
+		return RootSignatureDictionary()[name].get();
 	}
 
-	static void SetD3DDevice(ID3D12Device* pd3dDevice) { pDevice = pd3dDevice; }
+	static void Initialize(ID3D12Device* pd3dDevice)
+	{
+		pDevice = pd3dDevice;
+
+		RootSignatureDictionary()[RootSignature_Default::name] = std::make_unique<RootSignature_Default>();
+	}
 };
 
 
@@ -64,6 +73,7 @@ public:
 // t(0..15) : texture SRV slots
 class RootSignature_Default : public RootSignature
 {
+public:
 	static constexpr LPCSTR name = "default_root_signature";
 public:
 	struct PerPass
@@ -79,9 +89,6 @@ public:
 public:
 	RootSignature_Default()
 	{
-		// Add this signature to the list
-		mRootSignatureMap[name] = this;
-
 		// Root parameter can be a table, root descriptor or root constants.
 		D3D12_ROOT_PARAMETER slotRootParameters[4] = { };
 
@@ -194,5 +201,3 @@ public:
 		pCmdList->SetGraphicsRootDescriptorTable(3, mem->srvTextureBase);
 	}
 };
-
-REGISTER_CLASS_SIGNATURE(RootSignature_Default, RootSignature)

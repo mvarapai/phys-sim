@@ -20,6 +20,24 @@ inline std::wstring AnsiToWString(const std::string& str)
     return std::wstring(buffer);
 }
 
+inline void ToLowercaseInplace(std::string& other)
+{
+    std::transform(
+        other.begin(), other.end(), other.begin(),
+        [](unsigned char c)
+        {
+            return static_cast<char>(std::tolower(c));
+        }
+    );
+}
+
+inline std::string ToLowercaseCopy(std::string other)
+{
+    ToLowercaseInplace(other);
+    return other;
+}
+
+
 class DxException
 {
 public:
@@ -62,11 +80,12 @@ inline UINT CalcConstantBufferByteSize(UINT byteSize)
 
 // Function wrapper for D3DCompileFromFile that handles errors.
 // Also enables debug flags if running a debug build.
-Microsoft::WRL::ComPtr<ID3DBlob> CompileShader(
+void CompileShader(
     const std::wstring& filename,
     const D3D_SHADER_MACRO* defines,
     const std::string& entrypoint,
-    const std::string& target);
+    const std::string& target,
+    ID3DBlob** ppShaderBytecode);
 
 // Utility function to create a default buffer and fill it with initData
 // by creating an intermediate upload buffer.

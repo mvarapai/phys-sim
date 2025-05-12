@@ -1,5 +1,5 @@
 {
-  "RootSignature": "default_root_signature",
+  "RootSignature": "default",
 
   "Shaders": {
     "VS": "default_lit_VS",
@@ -73,12 +73,5 @@
   "SampleDesc": {
     "Count": 1,
     "Quality": 0
-  },
-
-  "NodeMask": 0,
-  "CachedPSO": {
-    "BlobSizeInBytes": 0,
-    "BlobData": null
-  },
-  "Flags": 0
+  }
 }

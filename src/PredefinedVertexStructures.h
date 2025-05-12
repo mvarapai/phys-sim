@@ -136,3 +136,12 @@ public:
 	DirectX::XMFLOAT2 _Tex;
 	DirectX::XMFLOAT4 _Color;
 };
+
+inline D3D12_INPUT_LAYOUT_DESC GetInputLayout(const std::string& str)
+{
+	if (str == "posonly") return VertexPosOnly::InputLayoutDesc;
+	else if (str == "col") return VertexCol::InputLayoutDesc;
+	else if (str == "tex") return VertexTex::InputLayoutDesc;
+	else if (str == "posnormtex") return VertexPosNormTex::InputLayoutDesc;
+	else if (str == "ui") return VertexUI::InputLayoutDesc;
+}

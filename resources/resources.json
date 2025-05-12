@@ -18,14 +18,14 @@
 			"name": "default_lit_VS",
 			"type": "VS",
 			"source": "default_lit.hlsl",
-			"root_signature": "default_root_signature",
+			"root_signature": "default",
 			"vertex_type": "posnormtex"
 		},
 		{
 			"name": "default_lit_PS",
 			"type": "PS",
 			"source": "default_lit.hlsl",
-			"root_signature": "default_root_signature",
+			"root_signature": "default",
 			"defines": [
 				{
 					"name": "FOG",

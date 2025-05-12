@@ -18,7 +18,6 @@
 #include "timer.h"
 #include "d3dUtil.h"
 #include "UploadBuffer.h"
-#include "FrameResource.h"
 #include "drawable.h"
 #include "structures.h"
 #include "geometry.h"

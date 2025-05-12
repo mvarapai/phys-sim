@@ -16,6 +16,7 @@
 #include "DebugPrint.h"
 #include "Shader.h"
 #include "RootSignature.h"
+#include "Texture2D.h"
 
 #define MAX_ROOT_SIGNATURES 8
 
@@ -26,32 +27,21 @@ class StaticResourceAssembler
 {
 private:
 	StaticResourceAssembler() = default;
+
+	static std::vector<TEXTURE2D_DESC> textureDescArray;
+	static std::vector<SHADER_DESC> shaderDescArray;
+	static std::vector<PSO_DESC> pipelineStateDescs;
 public:
 
-	static void AssembleStaticResources(StaticResourceManager& manager,
+	static void AssembleStaticResources(
 		ID3D12Device* pDevice,
 		std::string resourceFilename);
 
 // Subroutines for resource initialization.
 private:
+	static void ReadJSON(const std::string& resourceFilename);
+
 	void InitPipelineStates();
 	void LoadTextures();
 	void LoadMaterials();
-};
-
-// Class that contains and manages all D3D12 resources, including
-// PSOs, shaders, and input layouts.
-class StaticResourceManager
-{
-private:
-
-	std::unordered_map<std::string,
-		Microsoft::WRL::ComPtr<ID3D12PipelineState>>	mPipelineStates;
-
-	std::unordered_map<std::string,
-		std::unique_ptr<Shader>>						mShaders;
-
-	std::vector<std::unique_ptr<RootSignature>>			mRootSignatures;
-
-	friend class StaticResourceAssembler;
 };
