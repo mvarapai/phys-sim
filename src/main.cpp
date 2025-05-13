@@ -13,6 +13,7 @@
 #include "d3dinit.h"
 #include "d3dUtil.h"
 #include "d3dapp.h"
+#include "simulation.h"
 
 // Entry point to the app
 int WINAPI WinMain(_In_ HINSTANCE hInstance,// Handle to app in Windows
@@ -32,6 +33,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,// Handle to app in Windows
 
 	D3DApplication app;
 	app.Initialize(window.GetWindowHandle(), L"Physical Simulation");
+
+	// Initialize simulation
+	Simulation::Initialize();
 
 	window.ShowD3DWindow(nCmdShow, &app);
 	app.Run();
@@ -62,6 +66,7 @@ int D3DBase::Run()
 			if (!mAppPaused)
 			{
 				CalculateFrameStats();
+				Simulation::Simulate();
 				Update();
 				Draw();
 			}
