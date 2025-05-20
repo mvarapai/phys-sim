@@ -12,8 +12,9 @@
 #include <wrl.h>
 #include <memory>
 #include <unordered_map>
+#include "PredefinedVertexStructures.h"
 
-#include "UploadBuffer.h"
+#include "Buffer.h"
 
 class GeometryBufferBase
 {
@@ -28,36 +29,62 @@ public:
 	}
 };
 
-template<typename VertexType>
+template<typename VertexType, size_t BufferSize>
 class GeometryBufferDynamic : public GeometryBufferBase
 {
+	std::unique_ptr<RingBuffer<VertexType, BufferSize>> VertexBuffer;
+
+	static constexpr int INDEX_BUFFER_SIZE_MULTIPLIER = 6;
+	std::unique_ptr<RingBuffer<uint32_t, INDEX_BUFFER_SIZE_MULTIPLIER * BufferSize>> IndexBuffer;
+
 public:
+	// Implicitly loads vertex data into GPU resource 
 	D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView(UINT beginVertexLocation, UINT numVertices) override
 	{
+		D3D12_VERTEX_BUFFER_VIEW vbv{ };
+		vbv.BufferLocation = VertexBuffer->GetGPUHandleSingle(beginVertexLocation);
+		vbv.StrideInBytes = sizeof(VertexType);
+		vbv.SizeInBytes = sizeof(VertexType) * numVertices;
 
+		return vbv;
 	}
 
 	D3D12_INDEX_BUFFER_VIEW GetIndexBufferView(UINT beginIndexLocation, UINT numIndices) override
 	{
-
+		D3D12_INDEX_BUFFER_VIEW ibv{ };
+		ibv.BufferLocation = IndexBuffer->GetGPUHandleSingle(beginIndexLocation);
+		ibv.Format = DXGI_FORMAT_R32_UINT;
+		ibv.SizeInBytes = sizeof(uint32_t) * numIndices;
+	
+		return ibv;
 	}
 
 private:
-	GeometryBufferDynamic(ID3D12Device* pDevice, UINT elementCount)
+	GeometryBufferDynamic(ID3D12Device* pDevice,
+		std::vector<VertexType>& vertexData,
+		std::vector<uint32_t>& indexData)
 	{
-		pResource = std::make_unique<UploadBuffer<VertexType>>(pDevice, elementCount, false);
-	
+		// Initialize the buffers
+
+		VertexBuffer = std::make_unique<RingBuffer<
+			VertexType, BufferSize>>(pDevice, false, vertexData);
+		IndexBuffer = std::make_unique<RingBuffer<
+			uint32_t, INDEX_BUFFER_SIZE_MULTIPLIER * BufferSize>>(pDevice, false, indexData);
 	}
 
-	std::unique_ptr<UploadBuffer<VertexType>> pResource = nullptr;
+	void UpdateVertexBuffer(std::vector<VertexType>& vertexData)
+	{
+		VertexBuffer->SetCPUData(vertexData);
+	}
+
+	void UpdateIndexBuffer(std::vector<uint32_t>& indexData)
+	{
+		IndexBuffer->SetCPUData(indexData);
+	}
 };
 
+// For future endeavors
 template<typename VertexType>
 class GeometryBufferStatic : public GeometryBufferBase
 {
-public:
-
-private:
-	Microsoft::WRL::ComPtr<ID3D12Resource> pResource = nullptr;
-
 };
