@@ -18,7 +18,6 @@
 #include <unordered_map>
 
 #include "d3dUtil.h"
-#include "IEnumerable.h"
 
 // DEFINES
 
@@ -47,8 +46,8 @@ public:
 		if (numDescHeaps > 0)
 			pCmdList->SetDescriptorHeaps(numDescHeaps, ppDescHeapArray);
 	}
-	virtual void SetRootParametersPerDraw(ID3D12GraphicsCommandList* pCmdList, void* pParams, UINT paramByteLength) = 0;
-	virtual void SetRootParametersPerPass(ID3D12GraphicsCommandList* pCmdList, void* pParams, UINT paramByteLength) = 0;
+	virtual void SetRootParametersPerDraw(ID3D12GraphicsCommandList* pCmdList, void* pParams, size_t paramByteLength) = 0;
+	virtual void SetRootParametersPerPass(ID3D12GraphicsCommandList* pCmdList, void* pParams, size_t paramByteLength) = 0;
 
 public:
 	static RootSignature* Get(std::string name)
@@ -182,20 +181,22 @@ public:
 			IID_PPV_ARGS(mRootSig.GetAddressOf())));
 	}
 
-	void SetRootParametersPerPass(ID3D12GraphicsCommandList* pCmdList, void* pParams, UINT paramByteLength) override
+	void SetRootParametersPerPass(ID3D12GraphicsCommandList* pCmdList, void* pParams, size_t paramByteLength) override
 	{
 		if (paramByteLength != sizeof(PerPass)) return;
 
 		PerPass* mem = reinterpret_cast<PerPass*>(pParams);
 		pCmdList->SetGraphicsRootConstantBufferView(0, mem->passCB);
+
+		// Additionally, set descriptor heaps
+		pCmdList->SetDescriptorHeaps(1, Texture2D::DescriptorHeap.GetAddressOf());
 	}
 
-	void SetRootParametersPerDraw(ID3D12GraphicsCommandList* pCmdList, void* pParams, UINT paramByteLength) override
+	void SetRootParametersPerDraw(ID3D12GraphicsCommandList* pCmdList, void* pParams, size_t paramByteLength) override
 	{
 		if (paramByteLength != sizeof(PerDraw)) return;
 
 		PerDraw* mem = reinterpret_cast<PerDraw*>(pParams);
-		
 		pCmdList->SetGraphicsRootConstantBufferView(1, mem->objectCB);
 		pCmdList->SetGraphicsRootConstantBufferView(2, mem->dynamicMaterialCB);
 		pCmdList->SetGraphicsRootDescriptorTable(3, mem->srvTextureBase);

@@ -10,6 +10,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <chrono>
 
 #include "RootSignature.h"
 #include "Shader.h"
@@ -24,26 +25,43 @@ using namespace nlohmann;
 
 void StaticResourceAssembler::AssembleStaticResources(
 	ID3D12Device* pDevice,
+	ID3D12CommandQueue* pCommandQueue,
 	std::string resourceFilename)
 {
 	// First retrieve resource data into description vectors
 	ReadJSON(resourceFilename);
 
+
 	// Initialize root signatures
-	DPRINT("Creating predefined root signatures...");
+	DPRINT("Assembling root signatures...");
+	auto t0 = std::chrono::high_resolution_clock::now();
+
 	RootSignature::Initialize(pDevice);
-	DPRINT("Created %u root signatures.", RootSignature::RootSignatureDictionary().size());
+
+	auto t1 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> dt = t1 - t0;
+	DPRINT("Assembling root signatures - SUCCESS. Created %u root signatures. Time elapsed: %d ms.",
+		RootSignature::RootSignatureDictionary().size(), dt.count());
+
 
 	// Compile or read shaders
-
 	DPRINT("Assembling shaders...");
+	t0 = std::chrono::high_resolution_clock::now();
+
 	for (SHADER_DESC desc : shaderDescArray)
 	{
 		ShaderAssembler::LoadShader(desc);
 	}
-	DPRINT("Assembling shaders - SUCCESS");
+
+	t1 = std::chrono::high_resolution_clock::now();
+	dt = t1 - t0;
+	DPRINT("Assembling shaders - SUCCESS. Created %u shaders. Time elapsed: %d ms.",
+		Shader::ShaderDictionary().size(), dt.count());
+
 
 	// Create PSOs
+	DPRINT("Assembling pipeline states...");
+	t0 = std::chrono::high_resolution_clock::now();
 
 	for (const PSO_DESC& psoDesc : pipelineStateDescs)
 	{
@@ -51,7 +69,35 @@ void StaticResourceAssembler::AssembleStaticResources(
 	}
 	PipelineStateAssembler::SerializePipelines();
 
+	t1 = std::chrono::high_resolution_clock::now();
+	dt = t1 - t0;
+	DPRINT("Assembling pipeline states - SUCCESS. Creates %u PSOs. Time elapsed: %d ms.",
+		PipelineState::PipelineStateDictionary().size(), dt.count());
+
+
 	// Load textures
+	DPRINT("Assembling textures...");
+	t0 = std::chrono::high_resolution_clock::now();
+
+	for (const TEXTURE2D_DESC& desc : textureDescArray)
+	{
+		Texture2DAssembler::AssembleTexture(desc, pDevice, pCommandQueue);
+	}
+	Texture2DAssembler::AssembleCBVHeap(pDevice);
+
+	t1 = std::chrono::high_resolution_clock::now();
+	dt = t1 - t0;
+	DPRINT("Assembling textures - SUCCESS. Created %u textures. Time elapsed: %d ms.",
+		Texture2D::Texture2DDictionary().size(), dt.count());
+
+	FreeResourceInitData();
+}
+
+void StaticResourceAssembler::FreeResourceInitData()
+{
+	std::vector<TEXTURE2D_DESC>().swap(textureDescArray);
+	std::vector<SHADER_DESC>().swap(shaderDescArray);
+	std::vector<PSO_DESC>().swap(pipelineStateDescs);
 }
 
 void StaticResourceAssembler::ReadJSON(const std::string& resourceFilename)

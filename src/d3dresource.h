@@ -22,97 +22,27 @@
 
 #define NUM_FRAME_RESOURCES 3
 
-struct GEOMETRY_DESCRIPTOR
+class ConstantBuffer
 {
-	D3D12_VERTEX_BUFFER_VIEW VertexBufferView;
-	D3D12_INDEX_BUFFER_VIEW IndexBufferView;
+public:
+	std::unordered_map<std::string, std::unique_ptr<ConstantBuffer>>& ConstantBufferDictionary()
+	{
+		static std::unordered_map<std::string, std::unique_ptr<ConstantBuffer>> map;
+		return map;
+	}
 
-	std::vector<SubmeshGeometry> Submeshes;
+protected:
+	static int currentFrameResource;
+public:
+	virtual D3D12_GPU_VIRTUAL_ADDRESS GetBufferAddress() = 0;
 };
 
-class StaticResources
+class MaterialsConstantBuffer : ConstantBuffer
 {
+public:
+	
 private:
-	Microsoft::WRL::ComPtr<ID3D12Resource> VertexBuffers[NUM_GEOMETRIES];
-	Microsoft::WRL::ComPtr<ID3D12Resource> IndexBuffers[NUM_GEOMETRIES];
-
-	Microsoft::WRL::ComPtr<ID3D12Resource> Textures[NUM_TEXTURES];
-
-public:
-	GEOMETRY_DESCRIPTOR Geometries[NUM_GEOMETRIES];
-
-public:
-
-	void LoadGeometry(ID3D12Device* pDevice,
-		ID3D12CommandQueue* pQueue,
-		ID3D12Fence* pFence,
-		UINT64& currentValue)
-	{
-		StaticGeometryUploader<Vertex> uploader(pDevice);
-
-		CreateTerrain(&uploader, "resources\\Textures\\heightmap.bmp");
-		CreatePlane(&uploader, 100, 100, 128.0f, 128.0f);
-
-		uploader.ConstructGeometry(VertexBuffers[0], IndexBuffers[0], pQueue, pFence, currentValue);
-
-		Geometries[0].Submeshes = uploader.GetSubmeshes();
-		Geometries[0].VertexBufferView = uploader.VertexBufferView();
-		Geometries[0].IndexBufferView = uploader.IndexBufferView();
-	}
-
-	void LoadTextures(ID3D12Device* pDevice, ID3D12CommandQueue* pQueue)
-	{
-		DirectX::ResourceUploadBatch upload(pDevice);
-
-		upload.Begin();
-
-		DirectX::CreateDDSTextureFromFile(pDevice, upload, L"resources\\Textures\\grass.dds", Textures[0].GetAddressOf());
-		DirectX::CreateDDSTextureFromFile(pDevice, upload, L"resources\\Textures\\water1.dds", Textures[1].GetAddressOf());
-
-		auto finish = upload.End(pQueue);
-
-		finish.wait();
-
-		// Build and populate SRVs
-
-		D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = { };
-		srvHeapDesc.NumDescriptors = NUM_TEXTURES;
-		srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-		srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-		srvHeapDesc.NodeMask = 0;
-		ThrowIfFailed(pDevice->CreateDescriptorHeap(&srvHeapDesc,
-			IID_PPV_ARGS(mSRVHeap.GetAddressOf())));
-
-		D3D12_CPU_DESCRIPTOR_HANDLE handle = mSRVHeap->GetCPUDescriptorHandleForHeapStart();
-		cbvSrvDescriptorSize = pDevice->GetDescriptorHandleIncrementSize(
-			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-		for (int i = 0; i < NUM_TEXTURES; i++)
-		{
-			D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = { };
-			srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-			srvDesc.Format = Textures[i]->GetDesc().Format;
-			srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-			srvDesc.Texture2D.MostDetailedMip = 0;
-			srvDesc.Texture2D.MipLevels = Textures[i]->GetDesc().MipLevels;
-			srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
-
-			pDevice->CreateShaderResourceView(Textures[i].Get(), &srvDesc, handle);
-
-			handle.ptr += cbvSrvDescriptorSize;
-		}
-	}
-
-	// Returns GPU descriptor handle for current frame's pass CBV
-	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureSRV(UINT textureIndex) const
-	{
-		D3D12_GPU_DESCRIPTOR_HANDLE textureHandle = mSRVHeap->GetGPUDescriptorHandleForHeapStart();
-		textureHandle.ptr += static_cast<UINT64>(textureIndex) * cbvSrvDescriptorSize;
-		return textureHandle;
-	}
-
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mSRVHeap = nullptr;
-	SIZE_T cbvSrvDescriptorSize = 0;
+	std::unique_ptr<RingBuffer<MaterialConstants, CBUFFER_MAX_SIZE>> Buffers[NUM_FRAME_RESOURCES];
 };
 
 struct ConstantBufferDataCPU

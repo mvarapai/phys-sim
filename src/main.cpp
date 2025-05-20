@@ -32,7 +32,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,// Handle to app in Windows
 	D3DApplication app;
 	app.Initialize(window.GetWindowHandle(), L"Physical Simulation");
 
-	StaticResourceManager staticResourceManager;
 	StaticResourceAssembler::AssembleStaticResources(staticResourceManager, app.GetDevice(), "resources.json");
 
 	window.ShowD3DWindow(nCmdShow, &app);

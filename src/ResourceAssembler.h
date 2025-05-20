@@ -17,10 +17,7 @@
 #include "Shader.h"
 #include "RootSignature.h"
 #include "Texture2D.h"
-
-#define MAX_ROOT_SIGNATURES 8
-
-class StaticResourceManager;
+#include "PipelineState.h"
 
 // Factory static-only class to load static resources.
 class StaticResourceAssembler
@@ -35,13 +32,11 @@ public:
 
 	static void AssembleStaticResources(
 		ID3D12Device* pDevice,
+		ID3D12CommandQueue* pCommandQueue,
 		std::string resourceFilename);
 
 // Subroutines for resource initialization.
 private:
 	static void ReadJSON(const std::string& resourceFilename);
-
-	void InitPipelineStates();
-	void LoadTextures();
-	void LoadMaterials();
+	static void FreeResourceInitData();
 };

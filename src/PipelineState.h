@@ -281,6 +281,15 @@ public:
 			std::exit(1);
 		}
 
-		PipelineState::PSOLibrary->Serialize(outBlob->GetBufferPointer(), blobSize);
+		hr = PipelineState::PSOLibrary->Serialize(outBlob->GetBufferPointer(), blobSize);
+		if (FAILED(hr))
+		{
+			DPRINT_LOC("ERROR: FAILED TO SERIALIZE PIPELINE STATES");
+		}
+
+		// Finally, write blob to file
+		std::wstring path = L"resources\\pso\\";
+		path += L"pso_cache.bin";
+		D3DWriteBlobToFile(outBlob.Get(), path.c_str(), FALSE);
 	}
 };

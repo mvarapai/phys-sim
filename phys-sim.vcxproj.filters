@@ -31,6 +31,12 @@
     <Filter Include="workspace_util">
       <UniqueIdentifier>{2f082c41-518f-4e96-ba5e-3ef696073ebb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rendering\TEMP">
+      <UniqueIdentifier>{2ecf3062-eb24-4470-9cbf-9aad42cd9111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rendering\Drawable">
+      <UniqueIdentifier>{e9abaa2c-d029-4988-9827-df7e0bc93e0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\d3dcomponent.h">
@@ -55,9 +61,6 @@
       <Filter>rendering\util</Filter>
     </ClInclude>
     <ClInclude Include="src\structures.h">
-      <Filter>rendering\dynamic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\drawable.h">
       <Filter>rendering\dynamic</Filter>
     </ClInclude>
     <ClInclude Include="src\d3dresource.h">
@@ -87,14 +90,8 @@
     <ClInclude Include="src\PredefinedVertexStructures.h">
       <Filter>rendering\RESOURCE_LAYER</Filter>
     </ClInclude>
-    <ClInclude Include="src\geometry.h">
-      <Filter>rendering\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\d3dcamera.h">
       <Filter>rendering\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ResourceAssembler.h">
-      <Filter>rendering\RESOURCE_LAYER</Filter>
     </ClInclude>
     <ClInclude Include="src\RootSignature.h">
       <Filter>rendering\RESOURCE_LAYER</Filter>
@@ -107,6 +104,27 @@
     </ClInclude>
     <ClInclude Include="src\IEnumerable.h">
       <Filter>workspace_util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PipelineState.h">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONLookup.h">
+      <Filter>workspace_util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceAssembler.h">
+      <Filter>rendering\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture2D.h">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GeometryBuffer.h">
+      <Filter>rendering\RESOURCE_LAYER</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry.h">
+      <Filter>rendering\TEMP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IDrawable.h">
+      <Filter>rendering\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,11 +164,14 @@
     <ClCompile Include="src\d3dpipeline.cpp">
       <Filter>delete</Filter>
     </ClCompile>
-    <ClCompile Include="src\geometry_helper.cpp">
-      <Filter>rendering\util</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResourceAssembler.cpp">
-      <Filter>rendering\RESOURCE_LAYER</Filter>
+      <Filter>rendering\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\temp-init-geometry.cpp">
+      <Filter>rendering\TEMP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry_helper.cpp">
+      <Filter>rendering\TEMP</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

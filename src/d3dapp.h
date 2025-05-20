@@ -16,18 +16,11 @@ class D3DApplication : public D3DBase
 private:
 	void D3DBase::InitializeComponents() override
 	{
-		LoadResources();
 		mCamera = std::make_unique<Camera>(DirectX::XMVectorSet(5.0f, 2.0f, 5.0f, 1.0f),
 			DirectX::XM_PI * 7 / 4, -0.2f, mTimer.get());
-
-		BuildShadersAndInputLayout();
-		BuildPSO();
 	}
 
 private:
-	void LoadResources();
-	void BuildShadersAndInputLayout();			// Compiles shaders and defines input layout
-	void BuildPSO();							// Configures rendering pipeline
 
 	void DrawRenderItems();						// Draw every render item
 
